@@ -1,0 +1,78 @@
+import java.util.Scanner;
+
+public class Regre {
+    private double []x;
+    private double []y;
+    private double []xc;
+    private double []xy;
+    private double sax;
+    private double say;
+    private double sx2;
+    private double sxy;
+    private double beta0;
+    private double beta1;
+    private double ry;
+    private double sy;
+    private int n;
+
+    private Scanner teclado;
+    public void intro(){
+        teclado = new Scanner(System.in);
+        System.out.println("Introduzca el numero de datos a calcular");
+        n = teclado.nextInt();
+
+        x = new double[n];
+        y = new double[n];
+        xc = new double[n];
+        xy = new double[n];
+
+        System.out.println("Introduza los datos en x");
+        for(int i=0; i<n; i++){
+            x[i] = teclado.nextDouble();
+        }
+        System.out.println("Introduzca los datos en y");
+        for(int i=0; i<n; i++){
+            y[i] = teclado.nextDouble();
+        }
+    }
+    public void sumatoria(){
+        for(int i=0; i<n; i++){
+            sax=sax+x[i];
+            say=say+y[i];
+        }
+        System.out.println("La suma de x es: "+sax);
+        System.out.println("La suma de y es: "+ say);
+    }
+    public void cuadradosysuma(){
+        for(int i=0; i<n; i++){
+           xc[i]=x[i]*x[i];
+           xy[i]=x[i]*y[i];
+        }
+        for(int i=0; i<n; i++){
+            sx2= sx2+xc[i];
+            sxy=sxy+xy[i];
+        }
+        System.out.println(sx2+" "+sxy);
+    }
+    public void betas(){
+        beta0 = (((say*sx2)-(sax*sxy))/((n*sx2)-(sax*sax)));
+        System.out.println("Beta0= "+beta0);
+        beta1 = (((n*sxy)-(sax*say))/((n*sx2)-(sax*sax)));
+        System.out.println("Beta1= "+beta1);
+    }
+    public void y(){
+        System.out.println("Digite x: ");
+        ry=teclado.nextDouble();
+
+        sy=beta0+beta1*ry;
+        System.out.println("suma de y= "+sy);
+    }
+    public static void main(String []args){
+        Regre ola = new Regre();
+        ola.intro();
+        ola.sumatoria();
+        ola.cuadradosysuma();
+        ola.betas();
+        ola.y();
+    }
+}
