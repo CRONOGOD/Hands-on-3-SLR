@@ -1,0 +1,89 @@
+package Gradient;
+import jade.core.Agent;
+import jade.core.behaviours.OneShotBehaviour;
+public class Regre1 extends Agent {
+    private int n = 9;
+    private double[] x = {23, 26, 30, 34, 43, 48, 52, 57, 58};
+    private double[] y = {651, 762, 856, 1063, 1190, 1298, 1421, 1440, 1518};
+    private double[] xc = new double[n];
+    private double[] xy = new double[n];
+    private double sax, say, sx2, sxy;
+    private double beta0;
+    private double beta1;
+    private double f1, f2, sf1, sf2;
+    private double er2;
+    private double ser2;
+    private double a = 0.003;
+    protected void setup() {
+        System.out.println("Regresion Lineal Simple");
+        addBehaviour(new MyOneShotBehaviour());
+    }
+    private class MyOneShotBehaviour extends OneShotBehaviour {
+        public void action() {
+            for (int i = 0; i < n; i++) {
+                System.out.println(x[i] + " " + y[i]);
+            }
+            for (int i = 0; i < n; i++) {
+                sax = sax + x[i];
+                say = say + y[i];
+            }
+            System.out.println("La suma de x es: " + sax);
+            System.out.println("La suma de y es: " + say);
+
+            for (int i = 0; i < n; i++) {
+                xc[i] = x[i] * x[i];
+                xy[i] = x[i] * y[i];
+            }
+            for (int i = 0; i < n; i++) {
+                sx2 = sx2 + xc[i];
+                sxy = sxy + xy[i];
+            }
+            System.out.println("La suma de los cuadrados de x es=" + sx2);
+            System.out.println("La suma de x*y=" + sxy);
+
+            System.out.println("Calculo de betas: ");
+            beta0 = (((say * sx2) - (sax * sxy)) / ((n * sx2) - (sax * sax)));
+            System.out.println("Beta0= " + beta0);
+            beta1 = (((n * sxy) - (sax * say)) / ((n * sx2) - (sax * sax)));
+            System.out.println("Beta1= " + beta1);
+
+            System.out.println("Step 2");
+            System.out.println("Formula 1");
+            for (int i = 0; i < n; i++) {
+
+                f1=(y[i]-(beta0+beta1*x[i]));
+                System.out.println(f1);
+            }
+            System.out.println(" ");
+            System.out.println("Formula 2");
+            for (int i = 0; i < n; i++) {
+                f2=(x[0]*(y[i]-(beta0+beta1*x[i])));
+                System.out.println(f2);
+                //Calculando sus sumatorias
+                sf1+=(y[i]-(beta0+beta1*x[i]));
+                sf2+=(x[0]*(y[i]-(beta0+beta1*x[i])));
+            }
+            System.out.println("\nLa suma de la formula 1 es:");
+            System.out.println(sf1);
+
+            System.out.println("La suma de la formula 2 es:");
+            System.out.println(sf2);
+
+            System.out.println("Step 3");
+            System.out.println("Calcular el error");
+            for (int i = 0; i < n; i++) {
+                er2=Math.pow((y[i]-(beta0+(beta1*x[i]))),2);
+                System.out.println(er2);
+
+                ser2+=Math.pow((y[i]-(beta0+(beta1*x[i]))),2);
+            }
+            System.out.println("La sumatoria de la formula de error es: ");
+            System.out.println(ser2);
+
+        }
+        public int onEnd() {
+            myAgent.doDelete();
+            return super.onEnd();
+        }
+    }
+}
