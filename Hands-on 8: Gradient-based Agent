@@ -14,6 +14,7 @@ public class Regre1 extends Agent {
     private double er2;
     private double ser2;
     private double a = 0.003;
+    private double nbt0, nb1;
     protected void setup() {
         System.out.println("Regresion Lineal Simple");
         addBehaviour(new MyOneShotBehaviour());
@@ -80,6 +81,13 @@ public class Regre1 extends Agent {
             System.out.println("La sumatoria de la formula de error es: ");
             System.out.println(ser2);
 
+            System.out.println("Betas nuevas:");
+            for (int i =0; i<n; i++){
+                nbt0=beta0-a*(0/-1);
+                nb1=beta1-a*(0/-23*y[i]);
+            }
+            System.out.println("Beta0 nueva: "+nbt0);
+            System.out.println("Beta1 nueva: "+nb1);
         }
         public int onEnd() {
             myAgent.doDelete();
